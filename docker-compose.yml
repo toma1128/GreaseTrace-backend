@@ -1,0 +1,16 @@
+services:
+  go:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - ${GO_PORT}:${GO_PORT}
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    networks:
+      - go-network
+
+networks:
+  go-network:
+    driver: bridge
