@@ -7,10 +7,17 @@ services:
       - ${GO_PORT}:${GO_PORT}
     volumes:
       - ./backend:/app
-    working_dir: /app
     networks:
-      - go-network
+      - backend-network
+
+  peerjs:
+    image: peerjs/peerjs-server
+    platform: linux/amd64
+    ports:
+      - ${PEERJS_PORT}:${PEERJS_PORT}
+    networks:
+      - backend-network
 
 networks:
-  go-network:
+  backend-network:
     driver: bridge
