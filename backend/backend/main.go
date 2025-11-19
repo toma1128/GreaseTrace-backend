@@ -13,9 +13,10 @@ import (
 )
 
 func envLoad() {
-	err := godotenv.Overload("../.env")
+	err := godotenv.Overload(".env")
 	if err != nil {
-		log.Fatalf("Error loading env target")
+		log.Fatalf("ファイルが見つからないため環境変数で実行します")
+
 	}
 }
 
@@ -26,6 +27,9 @@ func main() {
 	// 2. Application: ユースケースの準備 (Repoを注入)
 	interactor := usecase.NewSessionInteractor(repo)
 
+	// envファイル読み込み
+	envLoad()
+
 	// 3. Interface: コントローラーの準備 (Usecaseを注入)
 	ctrl := controller.NewSessionController(interactor)
 
@@ -33,6 +37,9 @@ func main() {
 	r := router.NewRouter(ctrl)
 
 	GOPORT := os.Getenv("GO_PORT")
+	if GOPORT == "" {
+		GOPORT = "8080" // デフォルトポート
+	}
 
 	// 5. サーバー起動
 	log.Println("Go APIサーバーをポート " + GOPORT + " で起動します...")
