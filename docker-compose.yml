@@ -17,6 +17,8 @@ services:
       - ${PEERJS_PORT}:${PEERJS_PORT}
     networks:
       - backend-network
+    env_file:
+      - ./.env
 
 networks:
   backend-network:
